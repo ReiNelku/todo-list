@@ -1,11 +1,11 @@
 import { addTodoFunctionality } from "./todo.js";
 
-export function createProject(title, description, todos = []) {
-  return {
+export function createProject(title, description = "", todos = []) {
+  return addProjectFunctionality({
     title,
     description,
     todos,
-  };
+  });
 }
 
 export function addProjectFunctionality(project) {
