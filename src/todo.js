@@ -7,7 +7,7 @@ export function createTodoItem(
   notes = "",
   checklist = []
 ) {
-  return {
+  return addTodoFunctionality({
     title,
     description,
     dueDate,
@@ -15,7 +15,7 @@ export function createTodoItem(
     completed,
     notes,
     checklist,
-  };
+  });
 }
 
 export function addTodoFunctionality(todo) {
