@@ -1,3 +1,5 @@
+import { addTodoFunctionality } from "./todo.js";
+
 export function createProject(title, description, todos = []) {
   return {
     title,
@@ -30,4 +32,26 @@ export function addProjectFunctionality(project) {
     addTodoItem,
     removeTodoItem,
   };
+}
+
+export function getProject(projectTitle) {
+  let project = localStorage.getItem(projectTitle);
+
+  project = JSON.parse(project);
+
+  const todosWithFunctionality = project.todos.map((todo) =>
+    addTodoFunctionality(todo)
+  );
+
+  project.todos = todosWithFunctionality;
+
+  return addProjectFunctionality(project);
+}
+
+export function saveProject(project) {
+  localStorage.setItem(project.title, JSON.stringify(project));
+}
+
+export function deleteProject(projectTitle) {
+  localStorage.removeItem(projectTitle);
 }
