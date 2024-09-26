@@ -1,8 +1,10 @@
 import { getProject } from "./project.js";
+import { showCreateProjectModal } from "./modal.js";
 import plusIcon from "./icons/plus-icon.svg";
 
+const body = document.body;
+
 export function displaySidebar() {
-  const body = document.querySelector("body");
   const sidebar = document.createElement("aside");
   body.appendChild(sidebar);
 
@@ -17,6 +19,7 @@ export function displaySidebar() {
   sidebarHeader.appendChild(createNewProjectBtn);
   const createNewProjectImg = document.createElement("img");
   createNewProjectImg.src = plusIcon;
+  createNewProjectBtn.addEventListener("click", showCreateProjectModal);
   createNewProjectBtn.appendChild(createNewProjectImg);
 
   const projectsDiv = document.createElement("div");
@@ -51,8 +54,13 @@ export function displayProject(project) {
 }
 
 function displayProjectHeader({ title, description }) {
-  const body = document.querySelector("body");
-  const projectHeader = document.createElement("header");
+  let projectHeader = null;
+  if (document.querySelector("header")) {
+    projectHeader = document.querySelector("header");
+    projectHeader.textContent = "";
+  } else {
+    projectHeader = document.createElement("header");
+  }
   projectHeader.classList.add("project-header");
   body.appendChild(projectHeader);
 
@@ -77,8 +85,13 @@ function displayProjectHeader({ title, description }) {
 }
 
 function displayProjectTodos({ todos }) {
-  const body = document.querySelector("body");
-  const main = document.createElement("main");
+  let main = null;
+  if (document.querySelector("main")) {
+    main = document.querySelector("main");
+    main.textContent = "";
+  } else {
+    main = document.createElement("main");
+  }
   body.appendChild(main);
 
   const todoList = document.createElement("ul");
