@@ -1,4 +1,4 @@
-import { getProject } from "./project.js";
+import { getProject, deleteProject } from "./project.js";
 import { showCreateProjectModal } from "./modal.js";
 import plusIcon from "./icons/plus-icon.svg";
 
@@ -41,9 +41,25 @@ export function showProjectListItems() {
 
     const projectListItem = document.createElement("li");
     projectList.appendChild(projectListItem);
+
     const projectListItemBtn = document.createElement("button");
+    projectListItemBtn.classList.add("project-select");
     projectListItemBtn.textContent = `📕 ${project.title}`;
+    projectListItemBtn.addEventListener("click", () => {
+      displayProject(project);
+    });
     projectListItem.appendChild(projectListItemBtn);
+
+    const projectListItemDeleteBtn = document.createElement("button");
+    projectListItemDeleteBtn.classList.add("project-delete");
+    projectListItemDeleteBtn.textContent = "❌";
+    projectListItemDeleteBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to delete this project?")) {
+        deleteProject(project.title);
+        showProjectListItems();
+      }
+    });
+    projectListItem.appendChild(projectListItemDeleteBtn);
   });
 }
 
