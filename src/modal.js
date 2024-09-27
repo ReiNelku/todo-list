@@ -1,4 +1,9 @@
-import { createProject, getProject, saveProject } from "./project.js";
+import {
+  createProject,
+  getProject,
+  saveProject,
+  deleteProject,
+} from "./project.js";
 import { showProjectListItems, displayProject } from "./user-interface.js";
 
 const body = document.body;
@@ -10,19 +15,14 @@ modal.appendChild(form);
 
 export function showCreateProjectModal() {
   formReset();
-  const modalTitle = document.createElement("h3");
-  modalTitle.textContent = "Create New Project";
-  form.appendChild(modalTitle);
+  createModalTitle("Create New Project");
 
-  const errorDiv = document.createElement("div");
-  form.appendChild(errorDiv);
+  const errorDiv = createModalErrorDiv();
 
   createFormField("title", "text", true, true);
   createFormField("description", "text", false, false);
 
-  const formButtonsDiv = document.createElement("div");
-  formButtonsDiv.classList.add("form-buttons");
-  form.appendChild(formButtonsDiv);
+  createModalButtonDiv();
 
   const submitButton = createFormButton("submit");
   submitButton.addEventListener("click", (e) => {
@@ -33,9 +33,7 @@ export function showCreateProjectModal() {
 
     if (form.checkValidity()) {
       if (getProject(title.value)) {
-        errorDiv.textContent = "";
-        const error = createErrorMessage("This project already exists.");
-        errorDiv.appendChild(error);
+        showErrorMessage("This project already exists.", errorDiv);
         return;
       }
 
@@ -46,10 +44,56 @@ export function showCreateProjectModal() {
 
       closeModal();
     } else {
-      errorDiv.textContent = "";
-      const error = createErrorMessage("Please fill all required fields.");
-      errorDiv.appendChild(error);
+      showErrorMessage("Please fill all required fields.", errorDiv);
     }
+  });
+
+  const cancelButton = createFormButton("cancel");
+  cancelButton.addEventListener("click", closeModal);
+
+  modal.showModal();
+}
+
+export function showEditProjectModal(project) {
+  formReset();
+
+  createModalTitle("Edit Project");
+
+  const errorDiv = createModalErrorDiv();
+
+  createFormField("title", "text", true, false);
+  createFormField("description", "text", false, false);
+
+  createModalButtonDiv();
+
+  const submitButton = createFormButton("submit");
+  submitButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const title = document.querySelector("#title");
+    const description = document.querySelector("#description");
+
+    if (title.value === "" && description.value === "") {
+      showErrorMessage("Please fill at least one field.", errorDiv);
+
+      return;
+    }
+
+    deleteProject(project.title);
+
+    if (title.value) {
+      project.changeTitle(title.value);
+    }
+
+    if (description.value) {
+      project.changeDescription(description.value);
+    }
+
+    saveProject(project);
+    showProjectListItems();
+    displayProject(project);
+
+    closeModal();
   });
 
   const cancelButton = createFormButton("cancel");
@@ -66,12 +110,26 @@ function closeModal() {
   modal.close();
 }
 
-function createErrorMessage(errorMessage) {
+function createModalTitle(title) {
+  const modalTitle = document.createElement("h3");
+  modalTitle.textContent = title;
+  form.appendChild(modalTitle);
+}
+
+function createModalErrorDiv() {
+  const errorDiv = document.createElement("div");
+  form.appendChild(errorDiv);
+
+  return errorDiv;
+}
+
+function showErrorMessage(errorMessage, errorDiv) {
+  errorDiv.textContent = "";
   const error = document.createElement("p");
   error.classList.add("error");
   error.textContent = errorMessage;
 
-  return error;
+  errorDiv.appendChild(error);
 }
 
 function createFormField(title, fieldType, autofocus, required) {
@@ -99,6 +157,12 @@ function createFormField(title, fieldType, autofocus, required) {
     field.setAttribute("required", true);
   }
   formFieldDiv.appendChild(field);
+}
+
+function createModalButtonDiv() {
+  const formButtonsDiv = document.createElement("div");
+  formButtonsDiv.classList.add("form-buttons");
+  form.appendChild(formButtonsDiv);
 }
 
 function createFormButton(buttonValue) {

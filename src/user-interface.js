@@ -1,5 +1,5 @@
 import { getProject, deleteProject } from "./project.js";
-import { showCreateProjectModal } from "./modal.js";
+import { showCreateProjectModal, showEditProjectModal } from "./modal.js";
 import plusIcon from "./icons/plus-icon.svg";
 
 const body = document.body;
@@ -75,7 +75,7 @@ export function displayProject(project) {
   displayProjectTodos(project);
 }
 
-function displayProjectHeader({ title, description }) {
+function displayProjectHeader(project) {
   let projectHeader = null;
   if (document.querySelector("header")) {
     projectHeader = document.querySelector("header");
@@ -90,20 +90,23 @@ function displayProjectHeader({ title, description }) {
   projectHeader.appendChild(mainHeaderDiv);
 
   const mainHeaderTitle = document.createElement("h1");
-  mainHeaderTitle.textContent = title;
+  mainHeaderTitle.textContent = project.title;
   mainHeaderDiv.appendChild(mainHeaderTitle);
 
   const mainHeaderDescription = document.createElement("p");
-  mainHeaderDescription.textContent = description;
+  mainHeaderDescription.textContent = project.description;
   mainHeaderDiv.appendChild(mainHeaderDescription);
 
   const projectActionButtonsDiv = document.createElement("div");
   projectActionButtonsDiv.classList.add("project-action-buttons");
   projectHeader.appendChild(projectActionButtonsDiv);
 
-  if (title !== "Default Project") {
+  if (project.title !== "Default Project") {
     const editProjectButton = document.createElement("button");
     editProjectButton.textContent = "Edit Project";
+    editProjectButton.addEventListener("click", () =>
+      showEditProjectModal(project)
+    );
     projectActionButtonsDiv.appendChild(editProjectButton);
   }
 
