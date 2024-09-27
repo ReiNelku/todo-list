@@ -1,4 +1,10 @@
 :root {
+  --modal-background-color: #fffffe;
+  --modal-title-color: #2b2c34;
+  --modal-error-color: #ef4444;
+  --modal-label-color: #2b2c34;
+  --modal-submit-background-color: #6246ea;
+  --modal-submit-color: #fffffe;
   --aside-background-color: #d1d1e9;
   --aside-text-color: #2b2c34;
   --main-background-color: #fffffe;
@@ -38,6 +44,79 @@ body {
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-template-rows: 10rem 5fr;
+}
+
+dialog {
+  padding: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--modal-background-color);
+}
+
+::backdrop {
+  background-color: #000;
+  opacity: 0.6;
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+form > h3 {
+  color: var(--modal-title-color);
+  font-family: Avenir, Montserrat, Corbel, "URW Gothic", source-sans-pro,
+    sans-serif;
+  font-size: 2rem;
+}
+
+form .error {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--modal-error-color);
+}
+
+.form-field label {
+  display: block;
+  padding-bottom: 0.2rem;
+  color: var(--modal-label-color);
+  font-size: 1.1rem;
+}
+
+.form-field input {
+  padding: 0.2rem;
+  font-size: 1.2rem;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 2rem;
+}
+
+.form-buttons button {
+  padding: 1rem 2rem;
+  border: 0;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.form-buttons button[value="submit"] {
+  background-color: var(--modal-submit-background-color);
+  color: var(--modal-submit-color);
+}
+
+.form-buttons button[value="cancel"] {
+  background-color: var(--modal-background-color);
+  color: var(--modal-title-color);
 }
 
 aside {
