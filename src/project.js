@@ -35,6 +35,10 @@ export function addProjectFunctionality(project) {
 }
 
 export function getProject(projectTitle) {
+  if (!localStorage.getItem(projectTitle)) {
+    return;
+  }
+
   let project = localStorage.getItem(projectTitle);
 
   project = JSON.parse(project);
@@ -53,5 +57,9 @@ export function saveProject(project) {
 }
 
 export function deleteProject(projectTitle) {
+  if (projectTitle === "Default Project") {
+    return;
+  }
+
   localStorage.removeItem(projectTitle);
 }

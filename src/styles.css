@@ -188,8 +188,8 @@ aside > div > button {
   padding: 2rem 1rem;
   background-color: var(--header-background-colorbackground-color);
   border-bottom: 1px solid var(--header-border-color);
-  display: grid;
-  grid-template-columns: 5fr 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -208,8 +208,12 @@ aside > div > button {
   color: var(--header-description-color);
 }
 
-.project-header button {
-  justify-self: center;
+.project-action-buttons {
+  display: flex;
+  gap: 2rem;
+}
+
+.project-action-buttons button {
   padding: 1rem 2rem;
   border: 0;
   border-radius: 8px;

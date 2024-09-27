@@ -50,16 +50,18 @@ export function showProjectListItems() {
     });
     projectListItem.appendChild(projectListItemBtn);
 
-    const projectListItemDeleteBtn = document.createElement("button");
-    projectListItemDeleteBtn.classList.add("project-delete");
-    projectListItemDeleteBtn.textContent = "❌";
-    projectListItemDeleteBtn.addEventListener("click", () => {
-      if (confirm("Are you sure you want to delete this project?")) {
-        deleteProject(project.title);
-        showProjectListItems();
-      }
-    });
-    projectListItem.appendChild(projectListItemDeleteBtn);
+    if (projectName !== "Default Project") {
+      const projectListItemDeleteBtn = document.createElement("button");
+      projectListItemDeleteBtn.classList.add("project-delete");
+      projectListItemDeleteBtn.textContent = "❌";
+      projectListItemDeleteBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete this project?")) {
+          deleteProject(project.title);
+          showProjectListItems();
+        }
+      });
+      projectListItem.appendChild(projectListItemDeleteBtn);
+    }
   });
 }
 
@@ -91,13 +93,19 @@ function displayProjectHeader({ title, description }) {
   mainHeaderDescription.textContent = description;
   mainHeaderDiv.appendChild(mainHeaderDescription);
 
-  const editProjectButton = document.createElement("button");
-  editProjectButton.textContent = "Edit Project";
-  projectHeader.appendChild(editProjectButton);
+  const projectActionButtonsDiv = document.createElement("div");
+  projectActionButtonsDiv.classList.add("project-action-buttons");
+  projectHeader.appendChild(projectActionButtonsDiv);
+
+  if (title !== "Default Project") {
+    const editProjectButton = document.createElement("button");
+    editProjectButton.textContent = "Edit Project";
+    projectActionButtonsDiv.appendChild(editProjectButton);
+  }
 
   const addNewTodoButton = document.createElement("button");
   addNewTodoButton.textContent = "Add Todo";
-  projectHeader.appendChild(addNewTodoButton);
+  projectActionButtonsDiv.appendChild(addNewTodoButton);
 }
 
 function displayProjectTodos({ todos }) {
