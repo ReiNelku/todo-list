@@ -44,7 +44,11 @@ export function showProjectListItems() {
 
     const projectListItemBtn = document.createElement("button");
     projectListItemBtn.classList.add("project-select");
-    projectListItemBtn.textContent = `📕 ${project.title}`;
+    if (project.title === "Default Project") {
+      projectListItemBtn.textContent = `📘 ${project.title}`;
+    } else {
+      projectListItemBtn.textContent = `📕 ${project.title}`;
+    }
     projectListItemBtn.addEventListener("click", () => {
       displayProject(project);
     });
