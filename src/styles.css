@@ -91,9 +91,11 @@ form .error {
   font-size: 1.1rem;
 }
 
-.form-field input {
+.form-field input,
+.form-field select {
   padding: 0.2rem;
   font-size: 1.2rem;
+  width: 230px;
 }
 
 .form-buttons {
