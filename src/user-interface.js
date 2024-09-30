@@ -196,5 +196,13 @@ function showTodo(todo, todoIndex, project, todoList) {
 
   const todoListItemDelete = document.createElement("button");
   todoListItemDelete.textContent = "❌";
+  todoListItemDelete.addEventListener("click", () => {
+    if (confirm("Are you sure you want to delete this todo?")) {
+      project.removeTodoItem(todoIndex);
+      deleteProject(project.title);
+      saveProject(project);
+      displayProject(project);
+    }
+  });
   todoListItemActionsDiv.appendChild(todoListItemDelete);
 }
