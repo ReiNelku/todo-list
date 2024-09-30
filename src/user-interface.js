@@ -1,4 +1,4 @@
-import { getProject, deleteProject } from "./project.js";
+import { getProject, deleteProject, saveProject } from "./project.js";
 import {
   showCreateProjectModal,
   showEditProjectModal,
@@ -120,7 +120,7 @@ function displayProjectHeader(project) {
   projectActionButtonsDiv.appendChild(addNewTodoButton);
 }
 
-function displayProjectTodos({ todos }) {
+function displayProjectTodos(project) {
   let main = null;
   if (document.querySelector("main")) {
     main = document.querySelector("main");
@@ -134,15 +134,23 @@ function displayProjectTodos({ todos }) {
   todoList.classList.add("todo-list");
   main.appendChild(todoList);
 
-  todos.forEach((todo) => showTodo(todo, todoList));
+  project.todos.forEach((todo, todoIndex) =>
+    showTodo(todo, todoIndex, project, todoList)
+  );
 }
 
-function showTodo(todo, todoList) {
+function showTodo(todo, todoIndex, project, todoList) {
   const todoListItem = document.createElement("li");
   todoList.appendChild(todoListItem);
 
   const todoListItemInfoDiv = document.createElement("div");
-  todoListItemInfoDiv.classList.add("todo-info");
+  if (todo.completed) {
+    todoListItemInfoDiv.classList.add("todo-info");
+    todoListItemInfoDiv.classList.add("completed");
+  } else {
+    todoListItemInfoDiv.classList.add("todo-info");
+  }
+
   todoListItem.appendChild(todoListItemInfoDiv);
 
   const todoListItemTitle = document.createElement("button");
@@ -176,6 +184,14 @@ function showTodo(todo, todoList) {
 
   const todoListItemMarkComplete = document.createElement("button");
   todoListItemMarkComplete.textContent = "✔️";
+  todoListItemMarkComplete.addEventListener("click", () => {
+    todo.changeStatus();
+    project.saveTodoItemChanges(todo, todoIndex);
+    deleteProject(project.title);
+    saveProject(project);
+    displayProject(project);
+    todoListItemInfoDiv.classList.toggle("completed");
+  });
   todoListItemActionsDiv.appendChild(todoListItemMarkComplete);
 
   const todoListItemDelete = document.createElement("button");

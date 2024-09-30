@@ -21,6 +21,10 @@ export function addProjectFunctionality(project) {
     this.todos.push(todo);
   }
 
+  function saveTodoItemChanges(todo, todoIndex) {
+    this.todos[todoIndex] = todo;
+  }
+
   function removeTodoItem(todoIndex) {
     this.todos.splice(todoIndex, 1);
   }
@@ -30,6 +34,7 @@ export function addProjectFunctionality(project) {
     changeTitle,
     changeDescription,
     addTodoItem,
+    saveTodoItemChanges,
     removeTodoItem,
   };
 }
