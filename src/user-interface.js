@@ -1,5 +1,9 @@
 import { getProject, deleteProject } from "./project.js";
-import { showCreateProjectModal, showEditProjectModal } from "./modal.js";
+import {
+  showCreateProjectModal,
+  showEditProjectModal,
+  showAddTodoModal,
+} from "./modal.js";
 import plusIcon from "./icons/plus-icon.svg";
 
 const body = document.body;
@@ -112,6 +116,7 @@ function displayProjectHeader(project) {
 
   const addNewTodoButton = document.createElement("button");
   addNewTodoButton.textContent = "Add Todo";
+  addNewTodoButton.addEventListener("click", () => showAddTodoModal(project));
   projectActionButtonsDiv.appendChild(addNewTodoButton);
 }
 

@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import { createTodoItem } from "./todo.js";
 import {
   createProject,
   getProject,
@@ -102,6 +104,53 @@ export function showEditProjectModal(project) {
   modal.showModal();
 }
 
+export function showAddTodoModal(project) {
+  formReset();
+
+  createModalTitle("Add Todo");
+
+  const errorDiv = createModalErrorDiv();
+
+  createFormField("title", "text", true, true);
+  createFormField("description", "text", false, true);
+  createFormField("dueDate", "datetime-local", false, true);
+  createSelectPriority();
+
+  createModalButtonDiv();
+
+  const submitButton = createFormButton("submit");
+  submitButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const title = document.querySelector("#title");
+    const description = document.querySelector("#description");
+    const dueDate = document.querySelector("#dueDate");
+    const priority = document.querySelector("#priority");
+
+    if (form.checkValidity()) {
+      const todo = createTodoItem(
+        title.value,
+        description.value,
+        format(dueDate.value, "dd-MM-yyyy HH:mm"),
+        parseInt(priority.value),
+        false
+      );
+      project.addTodoItem(todo);
+      saveProject(project);
+      displayProject(project);
+
+      closeModal();
+    } else {
+      showErrorMessage("Please fill all required fields.", errorDiv);
+    }
+  });
+
+  const cancelButton = createFormButton("cancel");
+  cancelButton.addEventListener("click", closeModal);
+
+  modal.showModal();
+}
+
 function formReset() {
   form.textContent = "";
 }
@@ -157,6 +206,36 @@ function createFormField(title, fieldType, autofocus, required) {
     field.setAttribute("required", true);
   }
   formFieldDiv.appendChild(field);
+}
+
+function createSelectPriority() {
+  const priorityDiv = document.createElement("div");
+  priorityDiv.classList.add("form-field");
+  form.appendChild(priorityDiv);
+
+  const label = document.createElement("label");
+  label.setAttribute("for", "priority");
+  label.textContent = "Priority*";
+  priorityDiv.appendChild(label);
+
+  const select = document.createElement("select");
+  select.setAttribute("name", "priority");
+  select.setAttribute("id", "priority");
+  select.setAttribute("required", true);
+  priorityDiv.appendChild(select);
+
+  function createOption(value, optionContent) {
+    const option = document.createElement("option");
+    option.setAttribute("value", value);
+    option.textContent = optionContent;
+
+    return option;
+  }
+
+  select.appendChild(createOption(1, "Important Urgent"));
+  select.appendChild(createOption(2, "Unimportant Urgent"));
+  select.appendChild(createOption(3, "Important Nonurgent"));
+  select.appendChild(createOption(4, "Unimportant Nonurgent"));
 }
 
 function createModalButtonDiv() {
