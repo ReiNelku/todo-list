@@ -16,6 +16,8 @@
   --header-button-background: #6246ea;
   --header-button-color: #fffffe;
   --todo-text-color: #2b2c34;
+  --todo-extra-info-title-color: #6246ea;
+  --todo-extra-info-para-color: #2b2c34;
   --todo-border-color: #6246ea;
   --urgent-important-color: #ef4444;
   --urgent-non-important-color: #f97316;
@@ -238,6 +240,11 @@ main {
   border-top: 1px dashed var(--todo-border-color);
   color: var(--todo-text-color);
   display: flex;
+  flex-direction: column;
+}
+
+.todo-list .todo-main-info {
+  display: flex;
   justify-content: space-between;
 }
 
@@ -260,6 +267,18 @@ main {
 
 .todo-info > p {
   font-size: 1.2rem;
+}
+
+.todo-extra-info {
+  padding-top: 0.5rem;
+}
+
+.todo-extra-info .todo-extra-info-title {
+  color: var(--todo-extra-info-title-color);
+}
+
+.todo-extra-info p {
+  color: var(--todo-extra-info-para-color);
 }
 
 .urgent-important {

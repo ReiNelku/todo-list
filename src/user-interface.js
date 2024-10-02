@@ -143,6 +143,10 @@ function showTodo(todo, todoIndex, project, todoList) {
   const todoListItem = document.createElement("li");
   todoList.appendChild(todoListItem);
 
+  const todoMainInfoDiv = document.createElement("div");
+  todoMainInfoDiv.classList.add("todo-main-info");
+  todoListItem.appendChild(todoMainInfoDiv);
+
   const todoListItemInfoDiv = document.createElement("div");
   if (todo.completed) {
     todoListItemInfoDiv.classList.add("todo-info");
@@ -151,8 +155,9 @@ function showTodo(todo, todoIndex, project, todoList) {
     todoListItemInfoDiv.classList.add("todo-info");
   }
 
-  todoListItem.appendChild(todoListItemInfoDiv);
+  todoMainInfoDiv.appendChild(todoListItemInfoDiv);
 
+  let todoExtraInfo = false;
   const todoListItemTitle = document.createElement("button");
   switch (todo.priority) {
     case 1:
@@ -172,6 +177,29 @@ function showTodo(todo, todoIndex, project, todoList) {
       todoListItemTitle.classList.add("non-urgent-non-important");
       break;
   }
+  todoListItemTitle.addEventListener("click", () => {
+    todoExtraInfo = !todoExtraInfo;
+
+    if (todoExtraInfo) {
+      const todoExtraInfoDiv = document.createElement("div");
+      todoExtraInfoDiv.classList.add("todo-extra-info");
+      todoListItem.appendChild(todoExtraInfoDiv);
+
+      const todoDescriptionDiv = document.createElement("div");
+      todoExtraInfoDiv.appendChild(todoDescriptionDiv);
+
+      const todoDescriptionTitle = document.createElement("h3");
+      todoDescriptionTitle.classList.add("todo-extra-info-title");
+      todoDescriptionTitle.textContent = "Description: ";
+      todoDescriptionDiv.appendChild(todoDescriptionTitle);
+
+      const todoDescription = document.createElement("p");
+      todoDescription.textContent = todo.description;
+      todoDescriptionDiv.appendChild(todoDescription);
+    } else {
+      todoListItem.removeChild(document.querySelector(".todo-extra-info"));
+    }
+  });
   todoListItemInfoDiv.appendChild(todoListItemTitle);
 
   const todoListItemDate = document.createElement("p");
@@ -180,7 +208,7 @@ function showTodo(todo, todoIndex, project, todoList) {
 
   const todoListItemActionsDiv = document.createElement("div");
   todoListItemActionsDiv.classList.add("todo-actions");
-  todoListItem.appendChild(todoListItemActionsDiv);
+  todoMainInfoDiv.appendChild(todoListItemActionsDiv);
 
   const todoListItemMarkComplete = document.createElement("button");
   todoListItemMarkComplete.textContent = "✔️";
