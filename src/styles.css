@@ -8,6 +8,7 @@
   --aside-background-color: #d1d1e9;
   --aside-text-color: #2b2c34;
   --main-background-color: #fffffe;
+  --no-todos-message-color: #6246ea;
   --header-background-color: #fffffe;
   --header-text-color: #2b2c34;
   --header-title-color: #2b2c34;
@@ -229,6 +230,15 @@ aside > div > button {
 
 main {
   background-color: var(--main-background-color);
+}
+
+.no-todos {
+  margin-top: 2rem;
+  font-size: 3rem;
+  font-family: Avenir, Montserrat, Corbel, "URW Gothic", source-sans-pro,
+    sans-serif;
+  color: var(--no-todos-message-color);
+  text-align: center;
 }
 
 .todo-list {

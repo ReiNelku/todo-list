@@ -131,6 +131,15 @@ function displayProjectTodos(project) {
   }
   body.appendChild(main);
 
+  if (project.todos.length === 0) {
+    const noTodosMessage = document.createElement("h3");
+    noTodosMessage.classList.add("no-todos");
+    noTodosMessage.textContent = "No todos yet.";
+    main.appendChild(noTodosMessage);
+
+    return;
+  }
+
   const todoList = document.createElement("ul");
   todoList.classList.add("todo-list");
   main.appendChild(todoList);
