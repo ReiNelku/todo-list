@@ -151,6 +151,71 @@ export function showAddTodoModal(project) {
   modal.showModal();
 }
 
+export function showEditTodoModal(todo, todoIndex, project) {
+  formReset();
+
+  createModalTitle("Edit Todo");
+
+  const errorDiv = createModalErrorDiv();
+
+  createFormField("title", "text", true, false);
+  createFormField("description", "text", false, false);
+  createFormField("dueDate", "datetime-local", false, false);
+  createSelectPriority();
+
+  createModalButtonDiv();
+
+  const submitButton = createFormButton("submit");
+  submitButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const title = document.querySelector("#title");
+    const description = document.querySelector("#description");
+    const dueDate = document.querySelector("#dueDate");
+    const priority = document.querySelector("#priority");
+
+    console.log(title.value, description.value, dueDate.value, priority.value);
+    if (
+      title.value === "" &&
+      description.value === "" &&
+      dueDate.value === "" &&
+      parseInt(priority.value) === todo.priority
+    ) {
+      showErrorMessage("Please change at least one field.", errorDiv);
+
+      return;
+    }
+
+    if (title.value) {
+      todo.changeTitle(title.value);
+    }
+
+    if (description.value) {
+      todo.changeDescription(description.value);
+    }
+
+    if (dueDate.value) {
+      todo.changeDueDate(format(dueDate.value, "dd-MM-yyyy HH:mm"));
+    }
+
+    if (parseInt(priority.value) !== todo.priority) {
+      todo.changePriority(parseInt(priority.value));
+    }
+
+    deleteProject(project.title);
+    project.saveTodoItemChanges(todo, todoIndex);
+    saveProject(project);
+    displayProject(project);
+
+    closeModal();
+  });
+
+  const cancelButton = createFormButton("cancel");
+  cancelButton.addEventListener("click", closeModal);
+
+  modal.showModal();
+}
+
 function formReset() {
   form.textContent = "";
 }

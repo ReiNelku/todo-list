@@ -3,6 +3,7 @@ import {
   showCreateProjectModal,
   showEditProjectModal,
   showAddTodoModal,
+  showEditTodoModal,
 } from "./modal.js";
 import plusIcon from "./icons/plus-icon.svg";
 
@@ -221,6 +222,13 @@ function showTodo(todo, todoIndex, project, todoList) {
     todoListItemInfoDiv.classList.toggle("completed");
   });
   todoListItemActionsDiv.appendChild(todoListItemMarkComplete);
+
+  const todoListItemEdit = document.createElement("button");
+  todoListItemEdit.textContent = "🖊️";
+  todoListItemEdit.addEventListener("click", () =>
+    showEditTodoModal(todo, todoIndex, project)
+  );
+  todoListItemActionsDiv.appendChild(todoListItemEdit);
 
   const todoListItemDelete = document.createElement("button");
   todoListItemDelete.textContent = "❌";
